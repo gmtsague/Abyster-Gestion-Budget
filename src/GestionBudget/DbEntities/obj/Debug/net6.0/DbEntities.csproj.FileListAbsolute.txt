@@ -1,0 +1,14 @@
+D:\Laboratory\Abyster\src\GestionBudget\DbEntities\bin\Debug\net6.0\DbEntities.deps.json
+D:\Laboratory\Abyster\src\GestionBudget\DbEntities\bin\Debug\net6.0\DbEntities.dll
+D:\Laboratory\Abyster\src\GestionBudget\DbEntities\bin\Debug\net6.0\DbEntities.pdb
+D:\Laboratory\Abyster\src\GestionBudget\DbEntities\obj\Debug\net6.0\DbEntities.csproj.AssemblyReference.cache
+D:\Laboratory\Abyster\src\GestionBudget\DbEntities\obj\Debug\net6.0\DbEntities.GeneratedMSBuildEditorConfig.editorconfig
+D:\Laboratory\Abyster\src\GestionBudget\DbEntities\obj\Debug\net6.0\DbEntities.AssemblyInfoInputs.cache
+D:\Laboratory\Abyster\src\GestionBudget\DbEntities\obj\Debug\net6.0\DbEntities.AssemblyInfo.cs
+D:\Laboratory\Abyster\src\GestionBudget\DbEntities\obj\Debug\net6.0\DbEntities.csproj.CoreCompileInputs.cache
+D:\Laboratory\Abyster\src\GestionBudget\DbEntities\obj\Debug\net6.0\DbEntities.dll
+D:\Laboratory\Abyster\src\GestionBudget\DbEntities\obj\Debug\net6.0\refint\DbEntities.dll
+D:\Laboratory\Abyster\src\GestionBudget\DbEntities\obj\Debug\net6.0\DbEntities.pdb
+D:\Laboratory\Abyster\src\GestionBudget\DbEntities\obj\Debug\net6.0\ref\DbEntities.dll
+D:\Laboratory\Abyster\src\GestionBudget\DbEntities\bin\Debug\net6.0\DbEntities.runtimeconfig.json
+D:\Laboratory\Abyster\src\GestionBudget\DbEntities\obj\Debug\net6.0\DbEntities.genruntimeconfig.cache
