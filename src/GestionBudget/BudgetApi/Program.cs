@@ -23,7 +23,21 @@ builder.Services.AddMapster();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c => 
+{
+    /*
+    c.SwaggerDoc("v1",
+        new OpenApiInfo
+        {
+            Title = "My API - V1",
+            Version = "v1"
+        }
+     );     
+     */
+    var filePath = Path.Combine(System.AppContext.BaseDirectory, "BudgetApi.xml");
+    c.IncludeXmlComments(filePath);
+});
 
 var app = builder.Build();
 
