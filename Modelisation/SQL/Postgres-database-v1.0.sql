@@ -3,7 +3,18 @@
 /* Date de création :  14/02/2023 20:39:56                      */
 /*==============================================================*/
 
+ROLLBACK;
 BEGIN;
+
+DROP ROLE IF EXISTS abyster;
+
+CREATE ROLE abyster WITH LOGIN  NOSUPERUSER  INHERIT  NOCREATEDB  NOCREATEROLE  NOREPLICATION  PASSWORD 'Abyster120';
+
+
+DROP SCHEMA IF EXISTS budget ;
+
+CREATE SCHEMA IF NOT EXISTS budget  AUTHORIZATION abyster;
+
 
 SET SESSION AUTHORIZATION abyster;
 
