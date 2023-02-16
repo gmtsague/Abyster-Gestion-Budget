@@ -5,6 +5,8 @@ using DbEntities.Models;
 using Mapster;
 using System.Reflection.Metadata;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Permissions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,6 +14,7 @@ namespace BudgetApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
 
@@ -25,7 +28,11 @@ namespace BudgetApi.Controllers
         }
 
         // GET: api/<UsersController>
-        [HttpGet]
+        /// <summary>
+        /// Affiche la liste de tous les utilisateurs
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]        
         public async Task <IEnumerable<UserDto>> GetAll()
         {
             var Repo = _unitOfWork.GetRepository<User>();
@@ -34,6 +41,12 @@ namespace BudgetApi.Controllers
         }
 
         // GET api/<UsersController>/5
+        /// <summary>
+        /// Affiche le détail des informations d'un utilisateur
+        /// </summary>
+        /// <param name="id">Identifiant de l'utilisateur</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> /*UserDto*/ Get(int id, CancellationToken cancellationToken)
         {
@@ -50,6 +63,12 @@ namespace BudgetApi.Controllers
         }
 
         // GET api/<UsersController>/5/operations
+        /// <summary>
+        /// Affiche la liste des opérations financières d'un utilisateur
+        /// </summary>
+        /// <param name="userId">Identifiant de l'utilisateur</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("{userId}/[action]")]
         public Task<IEnumerable<OperationDto>> Operations(int userId, CancellationToken cancellationToken)
@@ -60,7 +79,14 @@ namespace BudgetApi.Controllers
         }
 
         // POST api/<UsersController>
-        [HttpPost]
+        /// <summary>
+        /// Permet à un utilisateur de se connecter au système
+        /// </summary>
+        /// <param name="dtoValue">Objet contenant les informations d'identification de l'utilisateur</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("Register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] UserDto dtoValue, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
@@ -79,7 +105,13 @@ namespace BudgetApi.Controllers
         }
 
         // PUT api/<UsersController>/5
-        [HttpPut("{id}")]
+        /// <summary>
+        /// Réalise la modification des informations (Nom, Prenom, Email) d'un utilisateur 
+        /// </summary>
+        /// <param name="id">Identifiant de l'utilisateur</param>
+        /// <param name="dtoValue"></param>
+        /// <returns></returns>
+        [HttpPut("Update/{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] UserDto dtoValue)
         {
             if (!ModelState.IsValid)
@@ -101,7 +133,75 @@ namespace BudgetApi.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Permet à un utilisateur de se connecter au système
+        /// </summary>
+        /// <param name="creds">Objet contenant les informations d'identification de l'utilisateur</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult Login([FromBody] object creds)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState) ;
+            }
+
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Réalise la déconnexion d'un utilisateur du système
+        /// </summary>
+        /// <param name="creds">Objet contenant les informations d'identification de l'utilisateur</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult Signout([FromBody] object creds)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return NoContent();
+        }
+
+        // POST api/<UsersController>/5
+        /// <summary>
+        /// Permet à l'adminisrateur d'activer ou de désactiver un compte utilisateur
+        /// </summary>
+        /// <param name="userId">Identifiant de l'utilisateur à Activer/Désactiver</param>
+        /// <param name="newStatut"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("{userId}/[action]")]
+        public async Task<IActionResult> Activate(int userId, [FromQuery] bool newStatut)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var Repo = _unitOfWork.GetRepository<User>();
+            var find = await Repo.FindAsync(userId);
+            if (find == null)
+            {
+                return NotFound();
+            }
+            find.Isactive = newStatut;
+            Repo.Update(find);
+            _unitOfWork.SaveChanges();
+
+            return NoContent();
+        }
+
         // DELETE api/<UsersController>/5
+        /// <summary>
+        /// Permet de supprimer un utilisateur
+        /// </summary>
+        /// <param name="id">Identifiant de l'utilisateur à supprimer</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
